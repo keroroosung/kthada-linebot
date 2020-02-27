@@ -1,5 +1,6 @@
 <?php
-
+require_once 'model-bot.php';
+$modelDutyIT = new modelDutyIT();
 $API_URL = 'https://api.line.me/v2/bot/message/reply';
 $ACCESS_TOKEN = 'ZJdTOvJ6epf06yal/WjuOKL71t0EvNBix3ZhyrbA/LQ6oUs982gUK37FDs0m8MtrCqDK1riUPWuCv2R1tvH64JNucbHoqQuK+3E1JV0gsdPGLTv/nVgVvd8VYB/V9zssXnpJuUZ9Yu/7Y8ZrSoLbKgdB04t89/1O/w1cDnyilFU='; // Access Token ค่าที่เราสร้างขึ้น
 $POST_HEADER = array('Content-Type: application/json', 'Authorization: Bearer ' . $ACCESS_TOKEN);
@@ -23,7 +24,7 @@ if ( sizeof($request_array['events']) > 0 )
     
     switch ($text) {
       case 'เวรไอที':
-        $reply_message = "นายกิตติศักดิ์ ทองนิล"."\r\n"."ตำแหน่ง : จพ.เครื่องคอมพิวเตอร์"."\r\n"."โทร : 089-276-2860";
+        $reply_message = $modelDutyIT->getITDuty();
         reply_line($reply_message,$reply_token,$API_URL, $POST_HEADER);
         break;
     }
@@ -68,5 +69,7 @@ function send_reply_message($url, $post_header, $post_body)
 
  return $result;
 }
+
+
 
 ?>
