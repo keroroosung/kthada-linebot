@@ -79,8 +79,8 @@ if (!is_null($events)) {
           $response = $bot->replyMessage($replyToken, $replyData);
           break;
         case "ธาดา":
-          $picFullSize = 'https://www.dropbox.com/s/my1d7xct8126ult/staff_1.jpg';
-          $picThumbnail = 'https://www.dropbox.com/s/my1d7xct8126ult/staff_1.jpg';
+          $picFullSize = 'https://i.ibb.co/mHTJR1t/staff-2.jpg';
+          $picThumbnail = 'https://i.ibb.co/mHTJR1t/staff-2.jpg';
           $replyData = new ImageMessageBuilder($picFullSize,$picThumbnail);
           $response = $bot->replyMessage($replyToken, $replyData);
           break;
