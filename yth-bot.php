@@ -23,7 +23,7 @@ if ( sizeof($request_array['events']) > 0 )
     
     switch ($text) {
       case 'เวรไอที':
-        $reply_message = 'นายกิตติศักดิ์ ทองนิล โทร : 089-276-2860';
+        $reply_message = "นายกิตติศักดิ์ ทองนิล"."\r\n"."ตำแหน่ง : จพ.เครื่องคอมพิวเตอร์"."\r\n"."โทร : 089-276-2860";
         reply_line($reply_message,$reply_token,$API_URL, $POST_HEADER);
         break;
     }
