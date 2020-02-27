@@ -79,9 +79,9 @@ if (!is_null($events)) {
           $response = $bot->replyMessage($replyToken, $replyData);
           break;
         case "ธาดา":
-          $picFullSize = 'http://yth.go.th/dutyit/img/staff_2.jpg';
-          $picThumbnail = 'http://yth.go.th/dutyit/img/staff_2.jpg';
-          $replyData = new ImageMessageBuilder($picFullSize, $picThumbnail);
+          $picFullSize = 'https://www.mywebsite.com/imgsrc/photos/f/simpleflower';
+          $picThumbnail = 'https://www.mywebsite.com/imgsrc/photos/f/simpleflower/240';
+          $replyData = new ImageMessageBuilder($picFullSize,$picThumbnail);
           $response = $bot->replyMessage($replyToken, $replyData);
           break;
       }
