@@ -79,9 +79,10 @@ if (!is_null($events)) {
           $response = $bot->replyMessage($replyToken, $replyData);
           break;
         case "ธาดา":
-          $textReplyMessage = $modelDutyIT->getITDuty();
-          $replyData = new TextMessageBuilder($textReplyMessage);
-          $response = $bot->replyMessage($replyToken, $replyData);
+          $picFullSize = 'https://www.mywebsite.com/imgsrc/photos/f/simpleflower';
+          $picThumbnail = 'https://www.mywebsite.com/imgsrc/photos/f/simpleflower/240';
+          $replyData = new ImageMessageBuilder($picFullSize, $picThumbnail);
+          break;
           break;
       }
       break;
