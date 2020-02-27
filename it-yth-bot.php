@@ -1,24 +1,24 @@
 <?
 
-define('LINE_MESSAGE_CHANNEL_ID','U6aba5354d03ca2c9baaf4136be920809');
-define('LINE_MESSAGE_CHANNEL_SECRET','e7642d512d62d09fd202ee009b80597f');
-define('LINE_MESSAGE_ACCESS_TOKEN','ZJdTOvJ6epf06yal/WjuOKL71t0EvNBix3ZhyrbA/LQ6oUs982gUK37FDs0m8MtrCqDK1riUPWuCv2R1tvH64JNucbHoqQuK+3E1JV0gsdPGLTv/nVgVvd8VYB/V9zssXnpJuUZ9Yu/7Y8ZrSoLbKgdB04t89/1O/w1cDnyilFU=');
+define('LINE_MESSAGE_CHANNEL_ID', 'U6aba5354d03ca2c9baaf4136be920809');
+define('LINE_MESSAGE_CHANNEL_SECRET', 'e7642d512d62d09fd202ee009b80597f');
+define('LINE_MESSAGE_ACCESS_TOKEN', 'ZJdTOvJ6epf06yal/WjuOKL71t0EvNBix3ZhyrbA/LQ6oUs982gUK37FDs0m8MtrCqDK1riUPWuCv2R1tvH64JNucbHoqQuK+3E1JV0gsdPGLTv/nVgVvd8VYB/V9zssXnpJuUZ9Yu/7Y8ZrSoLbKgdB04t89/1O/w1cDnyilFU=');
 
 // กรณีต้องการตรวจสอบการแจ้ง error ให้เปิด 3 บรรทัดล่างนี้ให้ทำงาน กรณีไม่ ให้ comment ปิดไป
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
- 
+
 // include composer autoload
 require_once 'vendor/autoload.php';
 require_once 'model-bot.php';
 $modelDutyIT = new modelDutyIT();
- 
+
 // การตั้งเกี่ยวกับ bot
- 
+
 // กรณีมีการเชื่อมต่อกับฐานข้อมูล
 //require_once("dbconnect.php");
- 
+
 ///////////// ส่วนของการเรียกใช้งาน class ผ่าน namespace
 use LINE\LINEBot;
 use LINE\LINEBot\HTTPClient;
@@ -35,7 +35,7 @@ use LINE\LINEBot\MessageBuilder\AudioMessageBuilder;
 use LINE\LINEBot\MessageBuilder\VideoMessageBuilder;
 use LINE\LINEBot\ImagemapActionBuilder;
 use LINE\LINEBot\ImagemapActionBuilder\AreaBuilder;
-use LINE\LINEBot\ImagemapActionBuilder\ImagemapMessageActionBuilder ;
+use LINE\LINEBot\ImagemapActionBuilder\ImagemapMessageActionBuilder;
 use LINE\LINEBot\ImagemapActionBuilder\ImagemapUriActionBuilder;
 use LINE\LINEBot\MessageBuilder\Imagemap\BaseSizeBuilder;
 use LINE\LINEBot\MessageBuilder\ImagemapMessageBuilder;
@@ -53,38 +53,44 @@ use LINE\LINEBot\MessageBuilder\TemplateBuilder\CarouselColumnTemplateBuilder;
 use LINE\LINEBot\MessageBuilder\TemplateBuilder\ConfirmTemplateBuilder;
 use LINE\LINEBot\MessageBuilder\TemplateBuilder\ImageCarouselTemplateBuilder;
 use LINE\LINEBot\MessageBuilder\TemplateBuilder\ImageCarouselColumnTemplateBuilder;
- 
+
 // เชื่อมต่อกับ LINE Messaging API
 $httpClient = new CurlHTTPClient(LINE_MESSAGE_ACCESS_TOKEN);
 $bot = new LINEBot($httpClient, array('channelSecret' => LINE_MESSAGE_CHANNEL_SECRET));
- 
+
 // คำสั่งรอรับการส่งค่ามาของ LINE Messaging API
 $content = file_get_contents('php://input');
- 
+
 // แปลงข้อความรูปแบบ JSON  ให้อยู่ในโครงสร้างตัวแปร array
 // แปลงข้อความรูปแบบ JSON  ให้อยู่ในโครงสร้างตัวแปร array
 $events = json_decode($content, true);
-if(!is_null($events)){
-    // ถ้ามีค่า สร้างตัวแปรเก็บ replyToken ไว้ใช้งาน
-    $replyToken = $events['events'][0]['replyToken'];
-    $typeMessage = $events['events'][0]['message']['type'];
-    $userMessage = $events['events'][0]['message']['text'];
-    $userMessage = strtolower($userMessage);
-    switch ($typeMessage){
-        case 'text':
-            switch ($userMessage) {
-                case "เวรไอที":
-                    $textReplyMessage = $modelDutyIT->getITDuty();
-                    $replyData = new TextMessageBuilder($textReplyMessage);
-                    $response = $bot->replyMessage($replyToken,$replyData);
-                    break;                                     
-            }
-            break;
-        default:
-            $textReplyMessage = json_encode($events);
-            $replyData = new TextMessageBuilder($textReplyMessage);         
-            break;  
-    }
+if (!is_null($events)) {
+  // ถ้ามีค่า สร้างตัวแปรเก็บ replyToken ไว้ใช้งาน
+  $replyToken = $events['events'][0]['replyToken'];
+  $typeMessage = $events['events'][0]['message']['type'];
+  $userMessage = $events['events'][0]['message']['text'];
+  $userMessage = strtolower($userMessage);
+  switch ($typeMessage) {
+    case 'text':
+      switch ($userMessage) {
+        case "เวรไอที":
+          $textReplyMessage = $modelDutyIT->getITDuty();
+          $replyData = new TextMessageBuilder($textReplyMessage);
+          $response = $bot->replyMessage($replyToken, $replyData);
+          break;
+        case "ธาดา":
+          $picFullSize = 'http://yth.go.th/dutyit/img/staff_2.jpg';
+          $picThumbnail = 'http://yth.go.th/dutyit/img/staff_2.jpg';
+          $replyData = new ImageMessageBuilder($picFullSize, $picThumbnail);
+          $response = $bot->replyMessage($replyToken, $replyData);
+          break;
+      }
+      break;
+    default:
+      $textReplyMessage = json_encode($events);
+      $replyData = new TextMessageBuilder($textReplyMessage);
+      break;
+  }
 }
 //l ส่วนของคำสั่งตอบกลับข้อความ
 
@@ -163,4 +169,3 @@ switch ($userMessage) {
       $replyData = new TextMessageBuilder($textReplyMessage);         
       break;                                      
 }*/
-?>
