@@ -79,8 +79,8 @@ if (!is_null($events)) {
           $response = $bot->replyMessage($replyToken, $replyData);
           break;
         case "ธาดา":
-          $picFullSize = '{"type": "image","originalContentUrl": "http://yth.go.th/dutyit/img/staff_2.jpg","previewImageUrl": "http://yth.go.th/dutyit/img/staff_2.jpg"}';
-          $picThumbnail = '{"type": "image","originalContentUrl": "http://yth.go.th/dutyit/img/staff_2.jpg","previewImageUrl": "http://yth.go.th/dutyit/img/staff_2.jpg"}';
+          $picFullSize = 'https://image.shutterstock.com/image-photo/mountain-landscape-hiking-trail-view-600w-1071252569.jpg';
+          $picThumbnail = 'https://image.shutterstock.com/image-photo/mountain-landscape-hiking-trail-view-600w-1071252569.jpg';
           $replyData = new ImageMessageBuilder($picFullSize,$picThumbnail);
           $response = $bot->replyMessage($replyToken, $replyData);
           break;
