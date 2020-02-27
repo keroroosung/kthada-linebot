@@ -20,7 +20,13 @@ if ( sizeof($request_array['events']) > 0 )
    if( $event['message']['type'] == 'text' )
    {
     $text = $event['message']['text'];
-    $reply_message = 'ระบบได้รับข้อความ ('.$text.') ของคุณแล้ว';
+    
+    switch ($text) {
+      case 'เวรไอที':
+        $reply_message = 'นายกิตติศักดิ์ ทองนิล โทร : 089-276-2860';
+        reply_line($reply_message,$reply_token,$API_URL, $POST_HEADER);
+        break;
+    }
    }
    else
     $reply_message = 'ระบบได้รับ '.ucfirst($event['message']['type']).' ของคุณแล้ว';
@@ -28,7 +34,13 @@ if ( sizeof($request_array['events']) > 0 )
   }
   else
    $reply_message = 'ระบบได้รับ Event '.ucfirst($event['type']).' ของคุณแล้ว';
- 
+ }
+}
+
+echo "OK";
+
+
+function reply_line($reply_message,$reply_token,$API_URL, $POST_HEADER){
   if( strlen($reply_message) > 0 )
   {
    //$reply_message = iconv("tis-620","utf-8",$reply_message);
@@ -41,10 +53,7 @@ if ( sizeof($request_array['events']) > 0 )
    $send_result = send_reply_message($API_URL, $POST_HEADER, $post_body);
    echo "Result: ".$send_result."\r\n";
   }
- }
 }
-
-echo "OK";
 
 function send_reply_message($url, $post_header, $post_body)
 {
