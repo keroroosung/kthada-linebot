@@ -79,8 +79,8 @@ if (!is_null($events)) {
           $response = $bot->replyMessage($replyToken, $replyData);
           break;
         case "ธาดา":
-          $picFullSize = 'https://yth.go.th/dutyit/img/staff_2.jpg';
-          $picThumbnail = 'https://yth.go.th/dutyit/img/staff_2.jpg';
+          $picFullSize = 'https://yth-app.herokuapp.com/it-yth-bot.php/img/staff_2.jpg';
+          $picThumbnail = 'https://yth-app.herokuapp.com/it-yth-bot.php/img/staff_2.jpg';
           $replyData = new ImageMessageBuilder($picFullSize,$picThumbnail);
           $response = $bot->replyMessage($replyToken, $replyData);
           break;
