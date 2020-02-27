@@ -1,0 +1,10 @@
+1. cd directory
+2.git init
+3.heroku git:remote -a yth-app
+4.git add
+5.git add .
+6.git commit -m "Create index.php"
+7.git push heroku master
+8.git add yth-bot.php
+9.git commit -m "Add file yth-bot.php"
+10.git push heroku master
