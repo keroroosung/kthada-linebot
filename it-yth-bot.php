@@ -81,7 +81,25 @@ if (!is_null($events)) {
         case "ธาดา":
           $picFullSize = 'https://i.ibb.co/mHTJR1t/staff-2.jpg';
           $picThumbnail = 'https://i.ibb.co/mHTJR1t/staff-2.jpg';
-          $replyData = new ImageMessageBuilder($picFullSize,$picThumbnail);
+          $replyData = new ImageMessageBuilder($picFullSize, $picThumbnail);
+          $response = $bot->replyMessage($replyToken, $replyData);
+          break;
+        case "เกริกเกียรติ":
+          $picFullSize = 'https://i.ibb.co/djp36b3/staff-1.jpg';
+          $picThumbnail = 'https://i.ibb.co/djp36b3/staff-1.jpg';
+          $replyData = new ImageMessageBuilder($picFullSize, $picThumbnail);
+          $response = $bot->replyMessage($replyToken, $replyData);
+          break;
+        case "ประธาน":
+          $picFullSize = 'https://i.ibb.co/MCdWfz6/staff-3.jpg';
+          $picThumbnail = 'https://i.ibb.co/MCdWfz6/staff-3.jpg';
+          $replyData = new ImageMessageBuilder($picFullSize, $picThumbnail);
+          $response = $bot->replyMessage($replyToken, $replyData);
+          break;
+        case "กิตติศักดิ์":
+          $picFullSize = 'https://i.ibb.co/4tKPg9L/staff-4.jpg';
+          $picThumbnail = 'https://i.ibb.co/4tKPg9L/staff-4.jpg';
+          $replyData = new ImageMessageBuilder($picFullSize, $picThumbnail);
           $response = $bot->replyMessage($replyToken, $replyData);
           break;
       }
