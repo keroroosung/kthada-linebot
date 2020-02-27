@@ -1,76 +1,63 @@
 <?php
 
-$strAccessToken = "<Channel Access Token Line>";
+$API_URL = 'https://api.line.me/v2/bot/message/reply';
+$ACCESS_TOKEN = 'ZJdTOvJ6epf06yal/WjuOKL71t0EvNBix3ZhyrbA/LQ6oUs982gUK37FDs0m8MtrCqDK1riUPWuCv2R1tvH64JNucbHoqQuK+3E1JV0gsdPGLTv/nVgVvd8VYB/V9zssXnpJuUZ9Yu/7Y8ZrSoLbKgdB04t89/1O/w1cDnyilFU='; // Access Token ค่าที่เราสร้างขึ้น
+$POST_HEADER = array('Content-Type: application/json', 'Authorization: Bearer ' . $ACCESS_TOKEN);
 
-$content = file_get_contents('php://input');
-$arrJson = json_decode($content, true);
+$request = file_get_contents('php://input');   // Get request content
+$request_array = json_decode($request, true);   // Decode JSON to Array
 
-$strUrl = "https://api.line.me/v2/bot/message/reply";
+if ( sizeof($request_array['events']) > 0 )
+{
 
-$arrHeader = array();
-$arrHeader[] = "Content-Type: application/json";
-$arrHeader[] = "Authorization: Bearer {$strAccessToken}";
-$_msg = $arrJson['events'][0]['message']['text'];
+ foreach ($request_array['events'] as $event)
+ {
+  $reply_message = '';
+  $reply_token = $event['replyToken'];
 
-
-$api_key="<MLAB APIKEY>";
-$url = 'https://api.mlab.com/api/1/databases/duckduck/collections/linebot?apiKey='.$api_key.'';
-$json = file_get_contents('https://api.mlab.com/api/1/databases/duckduck/collections/linebot?apiKey='.$api_key.'&q={"question":"'.$_msg.'"}');
-$data = json_decode($json);
-$isData=sizeof($data);
-
-if (strpos($_msg, 'สอนเป็ด') !== false) {
-  if (strpos($_msg, 'สอนเป็ด') !== false) {
-    $x_tra = str_replace("สอนเป็ด","", $_msg);
-    $pieces = explode("|", $x_tra);
-    $_question=str_replace("[","",$pieces[0]);
-    $_answer=str_replace("]","",$pieces[1]);
-    //Post New Data
-    $newData = json_encode(
-      array(
-        'question' => $_question,
-        'answer'=> $_answer
-      )
-    );
-    $opts = array(
-      'http' => array(
-          'method' => "POST",
-          'header' => "Content-type: application/json",
-          'content' => $newData
-       )
-    );
-    $context = stream_context_create($opts);
-    $returnValue = file_get_contents($url,false,$context);
-    $arrPostData = array();
-    $arrPostData['replyToken'] = $arrJson['events'][0]['replyToken'];
-    $arrPostData['messages'][0]['type'] = "text";
-    $arrPostData['messages'][0]['text'] = 'ขอบคุณที่สอนเป็ด';
-  }
-}else{
-  if($isData >0){
-   foreach($data as $rec){
-    $arrPostData = array();
-    $arrPostData['replyToken'] = $arrJson['events'][0]['replyToken'];
-    $arrPostData['messages'][0]['type'] = "text";
-    $arrPostData['messages'][0]['text'] = $rec->answer;
+  if ( $event['type'] == 'message' ) 
+  {
+   if( $event['message']['type'] == 'text' )
+   {
+    $text = $event['message']['text'];
+    $reply_message = 'ระบบได้รับข้อความ ('.$text.') ของคุณแล้ว';
    }
-  }else{
-    $arrPostData = array();
-    $arrPostData['replyToken'] = $arrJson['events'][0]['replyToken'];
-    $arrPostData['messages'][0]['type'] = "text";
-    $arrPostData['messages'][0]['text'] = 'ก๊าบบ คุณสามารถสอนให้ฉลาดได้เพียงพิมพ์: สอนเป็ด[คำถาม|คำตอบ]';
+   else
+    $reply_message = 'ระบบได้รับ '.ucfirst($event['message']['type']).' ของคุณแล้ว';
+  
   }
+  else
+   $reply_message = 'ระบบได้รับ Event '.ucfirst($event['type']).' ของคุณแล้ว';
+ 
+  if( strlen($reply_message) > 0 )
+  {
+   //$reply_message = iconv("tis-620","utf-8",$reply_message);
+   $data = [
+    'replyToken' => $reply_token,
+    'messages' => [['type' => 'text', 'text' => $reply_message]]
+   ];
+   $post_body = json_encode($data, JSON_UNESCAPED_UNICODE);
+
+   $send_result = send_reply_message($API_URL, $POST_HEADER, $post_body);
+   echo "Result: ".$send_result."\r\n";
+  }
+ }
 }
 
+echo "OK";
 
-$channel = curl_init();
-curl_setopt($channel, CURLOPT_URL,$strUrl);
-curl_setopt($channel, CURLOPT_HEADER, false);
-curl_setopt($channel, CURLOPT_POST, true);
-curl_setopt($channel, CURLOPT_HTTPHEADER, $arrHeader);
-curl_setopt($channel, CURLOPT_POSTFIELDS, json_encode($arrPostData));
-curl_setopt($channel, CURLOPT_RETURNTRANSFER,true);
-curl_setopt($channel, CURLOPT_SSL_VERIFYPEER, false);
-$result = curl_exec($channel);
-curl_close ($channel);
+function send_reply_message($url, $post_header, $post_body)
+{
+ $ch = curl_init($url);
+ curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+ curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+ curl_setopt($ch, CURLOPT_HTTPHEADER, $post_header);
+ curl_setopt($ch, CURLOPT_POSTFIELDS, $post_body);
+ curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+ $result = curl_exec($ch);
+ curl_close($ch);
+
+ return $result;
+}
+
 ?>
