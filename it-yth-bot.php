@@ -79,8 +79,8 @@ if (!is_null($events)) {
           $response = $bot->replyMessage($replyToken, $replyData);
           break;
         case "ธาดา":
-          $picFullSize = 'https://image.shutterstock.com/image-photo/mountain-landscape-hiking-trail-view-600w-1071252569.jpg';
-          $picThumbnail = 'https://image.shutterstock.com/image-photo/mountain-landscape-hiking-trail-view-600w-1071252569.jpg';
+          $picFullSize = 'https://yth.go.th/dutyit/img/staff_2.jpg';
+          $picThumbnail = 'https://yth.go.th/dutyit/img/staff_2.jpg';
           $replyData = new ImageMessageBuilder($picFullSize,$picThumbnail);
           $response = $bot->replyMessage($replyToken, $replyData);
           break;
