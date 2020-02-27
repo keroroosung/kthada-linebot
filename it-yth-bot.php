@@ -79,8 +79,8 @@ if (!is_null($events)) {
           $response = $bot->replyMessage($replyToken, $replyData);
           break;
         case "ธาดา":
-          $picFullSize = 'https://drive.google.com/file/d/0B01bgyHCNOJXeXhmZVliMnloeU0/view';
-          $picThumbnail = 'https://drive.google.com/file/d/0B01bgyHCNOJXeXhmZVliMnloeU0/view';
+          $picFullSize = 'https://lh3.googleusercontent.com/YTGO27etIUvZkXX4WezqiAQsVIo4mXqalX9ntAc2bfxcbXEWLCJNFFj-ULf4IgjBo1uhd7kHvsQmqok=w1280-h614-rw';
+          $picThumbnail = 'https://lh3.googleusercontent.com/YTGO27etIUvZkXX4WezqiAQsVIo4mXqalX9ntAc2bfxcbXEWLCJNFFj-ULf4IgjBo1uhd7kHvsQmqok=w1280-h614-rw';
           $replyData = new ImageMessageBuilder($picFullSize,$picThumbnail);
           $response = $bot->replyMessage($replyToken, $replyData);
           break;
