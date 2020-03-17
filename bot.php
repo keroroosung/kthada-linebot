@@ -1,8 +1,8 @@
 <?
 
-define('LINE_MESSAGE_CHANNEL_ID', 'U6aba5354d03ca2c9baaf4136be920809');
-define('LINE_MESSAGE_CHANNEL_SECRET', 'e7642d512d62d09fd202ee009b80597f');
-define('LINE_MESSAGE_ACCESS_TOKEN', 'ZJdTOvJ6epf06yal/WjuOKL71t0EvNBix3ZhyrbA/LQ6oUs982gUK37FDs0m8MtrCqDK1riUPWuCv2R1tvH64JNucbHoqQuK+3E1JV0gsdPGLTv/nVgVvd8VYB/V9zssXnpJuUZ9Yu/7Y8ZrSoLbKgdB04t89/1O/w1cDnyilFU=');
+define('LINE_MESSAGE_CHANNEL_ID', '');
+define('LINE_MESSAGE_CHANNEL_SECRET', '');
+define('LINE_MESSAGE_ACCESS_TOKEN', '');
 
 // กรณีต้องการตรวจสอบการแจ้ง error ให้เปิด 3 บรรทัดล่างนี้ให้ทำงาน กรณีไม่ ให้ comment ปิดไป
 ini_set('display_errors', 1);
@@ -11,8 +11,7 @@ error_reporting(E_ALL);
 
 // include composer autoload
 require_once 'vendor/autoload.php';
-require_once 'model-bot.php';
-$modelDutyIT = new modelDutyIT();
+
 
 // การตั้งเกี่ยวกับ bot
 
@@ -73,33 +72,9 @@ if (!is_null($events)) {
   switch ($typeMessage) {
     case 'text':
       switch ($userMessage) {
-        case "เวรไอที":
-          $textReplyMessage = $modelDutyIT->getITDuty();
+        case "hello":
+          $textReplyMessage = 'สวัสดีชาวโลก';
           $replyData = new TextMessageBuilder($textReplyMessage);
-          $response = $bot->replyMessage($replyToken, $replyData);
-          break;
-        case "ธาดา":
-          $picFullSize = 'https://i.ibb.co/mHTJR1t/staff-2.jpg';
-          $picThumbnail = 'https://i.ibb.co/mHTJR1t/staff-2.jpg';
-          $replyData = new ImageMessageBuilder($picFullSize, $picThumbnail);
-          $response = $bot->replyMessage($replyToken, $replyData);
-          break;
-        case "เกริกเกียรติ":
-          $picFullSize = 'https://i.ibb.co/djp36b3/staff-1.jpg';
-          $picThumbnail = 'https://i.ibb.co/djp36b3/staff-1.jpg';
-          $replyData = new ImageMessageBuilder($picFullSize, $picThumbnail);
-          $response = $bot->replyMessage($replyToken, $replyData);
-          break;
-        case "ประธาน":
-          $picFullSize = 'https://i.ibb.co/MCdWfz6/staff-3.jpg';
-          $picThumbnail = 'https://i.ibb.co/MCdWfz6/staff-3.jpg';
-          $replyData = new ImageMessageBuilder($picFullSize, $picThumbnail);
-          $response = $bot->replyMessage($replyToken, $replyData);
-          break;
-        case "กิตติศักดิ์":
-          $picFullSize = 'https://i.ibb.co/4tKPg9L/staff-4.jpg';
-          $picThumbnail = 'https://i.ibb.co/4tKPg9L/staff-4.jpg';
-          $replyData = new ImageMessageBuilder($picFullSize, $picThumbnail);
           $response = $bot->replyMessage($replyToken, $replyData);
           break;
       }
